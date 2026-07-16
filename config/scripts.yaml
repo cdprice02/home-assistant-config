@@ -1,0 +1,24 @@
+bedtime:
+  sequence:
+  - action: light.turn_off
+    metadata: {}
+    target:
+      entity_id: light.home_lights
+    data: {}
+  alias: Bedtime
+  description: ''
+wake_up:
+  sequence:
+  - action: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.home_lights_natural_light
+    data: {}
+  - action: light.turn_on
+    metadata: {}
+    target:
+      entity_id: light.home_lights
+    data:
+      transition: 30
+  alias: Wake Up
+  description: ''

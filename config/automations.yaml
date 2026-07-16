@@ -1,0 +1,26 @@
+- id: '1771272649258'
+  alias: Wake Up
+  description: Start wake up sequence for morning routine
+  triggers:
+  - allowed_methods:
+    - POST
+    - PUT
+    local_only: true
+    webhook_id: morning_alarm
+    trigger: webhook
+  actions:
+  - wait_template: "{% set now = now() %}  {% set today = now.date() %}  {% set alarm_datetime
+      = today.strftime(\"%Y-%m-%d \") + alarm_time %}  {% set alarm_timestamp = as_timestamp(strptime(alarm_datetime,
+      \"%Y-%m-%d %H:%M\")) %}  {% if alarm_timestamp < as_timestamp(now) %}\n  {%
+      set target_datetime = (today + timedelta(days=1)).strftime(\"%Y-%m-%d \") +
+      alarm_time %}\n{% else %}\n  {% set target_datetime = alarm_datetime %}\n{%
+      endif %}  {% set target_time = as_timestamp(strptime(target_datetime, \"%Y-%m-%d
+      %H:%M\")) %}  {% set wait_time = target_time - seconds_before %}  {{ as_timestamp(now)
+      >= wait_time }}"
+  - action: scene.turn_on
+    target:
+      entity_id: scene.home_lights_natural_light
+  variables:
+    seconds_before: 1800
+    alarm_time: strptime(trigger.json.message.Test, "%H:%M:%S%Z")
+  mode: restart
