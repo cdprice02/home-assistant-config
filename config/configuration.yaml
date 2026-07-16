@@ -21,30 +21,5 @@ lovelace:
       title: Home
       icon: mdi:home
       show_in_sidebar: true
-    dashboard-admin:
-      mode: yaml
-      filename: admin.yaml
-      title: Admin
-      icon: mdi:tools
-      show_in_sidebar: true
-      require_admin: true
-panel_custom:
-  - name: devices
-    sidebar_title: Devices
-    sidebar_icon: mdi:devices
-    js_url: /api/hassio/app/entrypoint.js
-    url_path: config/devices/dashboard
-    embed_iframe: true
-    require_admin: false
-    config:
-      ingress: core_configurator
-  - name: automations
-    sidebar_title: Devices
-    sidebar_icon: mdi:automation
-    js_url: /api/hassio/app/entrypoint.js
-    url_path: config/automation/dashboard
-    embed_iframe: true
-    require_admin: false
-    config:
-      ingress: core_configurator
+
 
