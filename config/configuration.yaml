@@ -28,7 +28,7 @@ lovelace:
     dashboard-vehicle:
       mode: yaml
       filename: vehicle.yaml
-      title: Little Bucker
+      title: Car
       icon: mdi:car
       show_in_sidebar: true
 

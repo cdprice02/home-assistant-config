@@ -32,6 +32,8 @@
   - trigger: state
     entity_id: person.carson
     to: home
+  - trigger: homeassistant
+    event: start
   actions:
   - if:
     - condition: state
