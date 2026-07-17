@@ -231,8 +231,8 @@
 
 - id: movie_lights_on
   alias: Movie Lights
-  description: Dim living room to Movie scene when TV starts playing or Xbox input
-    is selected, after sunset.
+  description: Dim living room to Movie scene when TV plays, Xbox input selected,
+    or gaming session starts, after sunset.
   triggers:
   - trigger: state
     entity_id: media_player.tv
@@ -243,6 +243,9 @@
     entity_id: media_player.tv
     attribute: source
     to: Xbox
+  - trigger: state
+    entity_id: binary_sensor.offyerrocker762_in_game
+    to: 'on'
   conditions:
   - condition: sun
     after: sunset
