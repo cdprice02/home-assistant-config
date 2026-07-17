@@ -20,6 +20,6 @@ lovelace:
       filename: my-home.yaml
       title: Home
       icon: mdi:home
-      show_in_sidebar: true
+      show_in_sidebar: false
 
 
