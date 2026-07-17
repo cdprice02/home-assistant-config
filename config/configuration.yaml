@@ -59,8 +59,9 @@ input_select:
   phone_focus:
     name: Phone Focus
     options:
-      - None
+      - 'Off'
       - Do Not Disturb
+      - Personal
       - Sleep
       - Fitness
       - Driving

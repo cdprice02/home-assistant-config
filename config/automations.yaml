@@ -62,6 +62,8 @@
   - condition: state
     entity_id: person.carson
     state: not_home
+  - condition: template
+    value_template: "{{ this.attributes.last_triggered is none or\n   (now() - this.attributes.last_triggered).total_seconds() > 900 }}"
   actions:
   - action: notify.mobile_app_cdprice_phone
     data:
@@ -135,7 +137,7 @@
 
 - id: phone_focus_webhook
   alias: Focus Sync
-  description: iOS shortcut posts {"focus":"<current focus name or empty>"}; unknown/empty maps to None.
+  description: iOS shortcut posts {"focus":"<current focus name or empty>"}; unknown/empty maps to Off.
   triggers:
   - trigger: webhook
     webhook_id: phone-focus-8f3k2p
@@ -147,7 +149,7 @@
     target:
       entity_id: input_select.phone_focus
     data:
-      option: '{{ trigger.json.focus if (trigger.json.focus is defined and trigger.json.focus in [''Do Not Disturb'', ''Sleep'', ''Fitness'', ''Driving'', ''Reduce Interruptions'']) else ''None'' }}'
+      option: '{{ trigger.json.focus if (trigger.json.focus is defined and trigger.json.focus in [''Do Not Disturb'', ''Personal'', ''Sleep'', ''Fitness'', ''Driving'', ''Reduce Interruptions'']) else ''Off'' }}'
   mode: queued
 
 - id: sleep_focus_winddown
@@ -253,9 +255,18 @@
     entity_id: person.carson
     state: home
   actions:
-  - action: scene.turn_on
-    target:
-      entity_id: scene.movie
+  - choose:
+    - conditions:
+      - condition: time
+        after: '23:00:00'
+      sequence:
+      - action: scene.turn_on
+        target:
+          entity_id: scene.late_movie
+    default:
+    - action: scene.turn_on
+      target:
+        entity_id: scene.movie
   mode: single
 
 - id: ford_low_fuel
@@ -274,31 +285,59 @@
 
 - id: ford_unlocked_when_leaving
   alias: Ford Unlocked When Leaving
-  description: Notify if Little Bucker is unlocked when leaving home.
+  description: Notify if Little Bucker is unlocked when you park away from home.
   triggers:
   - trigger: state
-    entity_id: person.carson
-    from: home
+    entity_id: sensor.fordpass_3fmcr9c65prd22131_ignitionstatus
+    to: 'Off'
   conditions:
   - condition: state
     entity_id: lock.fordpass_3fmcr9c65prd22131_doorlock
     state: unlocked
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.carson
+      state: home
   actions:
   - action: notify.mobile_app_cdprice_phone
     data:
       title: Little Bucker is unlocked
-      message: You left home and the car doors are unlocked.
+      message: You parked with the car doors unlocked.
       data:
         push:
           interruption-level: time-sensitive
+        actions:
+          - action: LOCK_CAR
+            title: Lock
+  mode: single
+
+- id: ford_lock_from_notification
+  alias: Ford Lock from Notification
+  description: Handles Lock button tap from Ford Unlocked notification.
+  triggers:
+  - trigger: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: LOCK_CAR
+  actions:
+  - action: lock.lock
+    target:
+      entity_id: lock.fordpass_3fmcr9c65prd22131_doorlock
   mode: single
 
 - id: movie_lights_off
   alias: Movie Lights Off
-  description: Restore relax lighting when TV turns off after sunset.
+  description: Restore relax lighting when TV turns off or gaming session ends after
+    sunset.
   triggers:
   - trigger: state
     entity_id: media_player.tv
+    to: 'off'
+    for:
+      seconds: 10
+  - trigger: state
+    entity_id: binary_sensor.offyerrocker762_in_game
     to: 'off'
     for:
       seconds: 10
