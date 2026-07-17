@@ -33,6 +33,37 @@ views:
             entity: sensor.backup_next_scheduled_automatic_backup
             name: Next scheduled
             icon: mdi:calendar-clock
+      - type: grid
+        cards:
+          - type: heading
+            heading: Unavailable entities
+          - type: custom:auto-entities
+            card:
+              type: entities
+            filter:
+              include:
+                - state: unavailable
+              exclude:
+                - entity_id: "*_update"
+            sort:
+              method: entity_id
+            show_empty: false
+      - type: grid
+        cards:
+          - type: heading
+            heading: Quick links
+          - type: custom:mushroom-template-card
+            primary: Full history
+            icon: mdi:chart-line
+            tap_action:
+              action: navigate
+              navigation_path: /history
+          - type: custom:mushroom-template-card
+            primary: Full logbook
+            icon: mdi:text-box-outline
+            tap_action:
+              action: navigate
+              navigation_path: /logbook
 
   - title: History
     icon: mdi:chart-line

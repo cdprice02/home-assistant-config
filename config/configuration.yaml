@@ -60,3 +60,20 @@ input_select:
       - Driving
       - Reduce Interruptions
     icon: mdi:cellphone-sound
+
+mqtt:
+  sensor:
+    - name: "Queen CPU Temperature"
+      unique_id: homelab_temp_queen
+      state_topic: "homelab/temp/queen"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      expire_after: 30
+    - name: "Drone-0 CPU Temperature"
+      unique_id: homelab_temp_drone_0
+      state_topic: "homelab/temp/drone-0"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
+      expire_after: 30
