@@ -1,0 +1,141 @@
+title: Little Bucker
+views:
+  - title: Little Bucker
+    icon: mdi:car
+    path: vehicle
+    type: sections
+    max_columns: 2
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Status
+          - type: custom:mushroom-entity-card
+            entity: sensor.fordpass_3fmcr9c65prd22131_fuel
+            name: Fuel
+            icon: mdi:gas-station
+          - type: custom:mushroom-entity-card
+            entity: sensor.fordpass_3fmcr9c65prd22131_oil
+            name: Oil life
+            icon: mdi:oil
+          - type: custom:mushroom-entity-card
+            entity: sensor.fordpass_3fmcr9c65prd22131_odometer
+            name: Odometer
+            icon: mdi:counter
+          - type: custom:mushroom-entity-card
+            entity: sensor.fordpass_3fmcr9c65prd22131_battery
+            name: 12V battery
+            icon: mdi:car-battery
+          - type: custom:mushroom-entity-card
+            entity: sensor.fordpass_3fmcr9c65prd22131_outsidetemp
+            name: Outside temp
+            icon: mdi:thermometer
+          - type: custom:mushroom-entity-card
+            entity: sensor.fordpass_3fmcr9c65prd22131_lastrefresh
+            name: Last synced
+            icon: mdi:clock-outline
+
+      - type: grid
+        cards:
+          - type: heading
+            heading: Security
+          - type: custom:mushroom-entity-card
+            entity: lock.fordpass_3fmcr9c65prd22131_doorlock
+            name: Doors
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            entity: sensor.fordpass_3fmcr9c65prd22131_doorstatus
+            name: Door status
+            icon: mdi:car-door
+          - type: custom:mushroom-entity-card
+            entity: sensor.fordpass_3fmcr9c65prd22131_alarm
+            name: Alarm
+            icon: mdi:shield-car
+          - type: custom:mushroom-entity-card
+            entity: sensor.fordpass_3fmcr9c65prd22131_ignitionstatus
+            name: Ignition
+            icon: mdi:key
+          - type: custom:mushroom-entity-card
+            entity: sensor.fordpass_3fmcr9c65prd22131_tirepressure
+            name: Tire pressure
+            icon: mdi:tire
+
+      - type: grid
+        cards:
+          - type: heading
+            heading: Remote start
+          - type: custom:mushroom-entity-card
+            entity: switch.fordpass_3fmcr9c65prd22131_ignition
+            name: Remote start
+            icon: mdi:remote
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            entity: sensor.fordpass_3fmcr9c65prd22131_remotestartstatus
+            name: Status
+            icon: mdi:information-outline
+          - type: custom:mushroom-entity-card
+            entity: sensor.fordpass_3fmcr9c65prd22131_remotestartcountdown
+            name: Time remaining
+            icon: mdi:timer-outline
+          - type: custom:mushroom-entity-card
+            entity: button.fordpass_3fmcr9c65prd22131_extendremotestart
+            name: Extend time
+            icon: mdi:timer-plus
+            tap_action:
+              action: call-service
+              service: button.press
+              target:
+                entity_id: button.fordpass_3fmcr9c65prd22131_extendremotestart
+
+      - type: grid
+        cards:
+          - type: heading
+            heading: Find it
+          - type: map
+            entities:
+              - entity: device_tracker.fordpass_3fmcr9c65prd22131_tracker
+                label: Little Bucker
+            hours_to_show: 0
+          - type: custom:mushroom-entity-card
+            entity: button.fordpass_3fmcr9c65prd22131_hafshort
+            name: Honk & flash (1s)
+            icon: mdi:bullhorn
+            tap_action:
+              action: call-service
+              service: button.press
+              target:
+                entity_id: button.fordpass_3fmcr9c65prd22131_hafshort
+          - type: custom:mushroom-entity-card
+            entity: button.fordpass_3fmcr9c65prd22131_hafdefault
+            name: Honk & flash (3s)
+            icon: mdi:bullhorn-outline
+            tap_action:
+              action: call-service
+              service: button.press
+              target:
+                entity_id: button.fordpass_3fmcr9c65prd22131_hafdefault
+
+      - type: grid
+        cards:
+          - type: heading
+            heading: Sync
+          - type: custom:mushroom-entity-card
+            entity: button.fordpass_3fmcr9c65prd22131_request_refresh
+            name: Remote sync
+            icon: mdi:cloud-sync
+            tap_action:
+              action: call-service
+              service: button.press
+              target:
+                entity_id: button.fordpass_3fmcr9c65prd22131_request_refresh
+          - type: custom:mushroom-entity-card
+            entity: button.fordpass_3fmcr9c65prd22131_update_data
+            name: Local sync
+            icon: mdi:sync
+            tap_action:
+              action: call-service
+              service: button.press
+              target:
+                entity_id: button.fordpass_3fmcr9c65prd22131_update_data

@@ -253,6 +253,41 @@
       entity_id: scene.movie
   mode: single
 
+- id: ford_low_fuel
+  alias: Ford Low Fuel
+  description: Notify when Little Bucker drops below 20% fuel.
+  triggers:
+  - trigger: numeric_state
+    entity_id: sensor.fordpass_3fmcr9c65prd22131_fuel
+    below: 20
+  actions:
+  - action: notify.mobile_app_cdprice_phone
+    data:
+      title: Little Bucker — low fuel
+      message: "Fuel is at {{ states('sensor.fordpass_3fmcr9c65prd22131_fuel') }}%."
+  mode: single
+
+- id: ford_unlocked_when_leaving
+  alias: Ford Unlocked When Leaving
+  description: Notify if Little Bucker is unlocked when leaving home.
+  triggers:
+  - trigger: state
+    entity_id: person.carson
+    from: home
+  conditions:
+  - condition: state
+    entity_id: lock.fordpass_3fmcr9c65prd22131_doorlock
+    state: unlocked
+  actions:
+  - action: notify.mobile_app_cdprice_phone
+    data:
+      title: Little Bucker is unlocked
+      message: You left home and the car doors are unlocked.
+      data:
+        push:
+          interruption-level: time-sensitive
+  mode: single
+
 - id: movie_lights_off
   alias: Movie Lights Off
   description: Restore relax lighting when TV turns off after sunset.

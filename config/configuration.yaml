@@ -25,6 +25,12 @@ lovelace:
       icon: mdi:cog
       show_in_sidebar: true
       require_admin: true
+    dashboard-vehicle:
+      mode: yaml
+      filename: vehicle.yaml
+      title: Little Bucker
+      icon: mdi:car
+      show_in_sidebar: true
 
 input_boolean:
   skip_next_wakeup:
