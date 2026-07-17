@@ -5,13 +5,22 @@
   "data": {
     "items": [
       {
-        "id": "map",
-        "icon": "mdi:map",
-        "title": "Map",
-        "url_path": "map",
+        "id": "dashboard_homelab",
         "show_in_sidebar": true,
+        "icon": "mdi:server",
+        "title": "Homelab",
+        "require_admin": false,
         "mode": "storage",
-        "require_admin": false
+        "url_path": "dashboard-homelab"
+      },
+      {
+        "id": "dashboard_pet",
+        "show_in_sidebar": true,
+        "icon": "mdi:dog-side",
+        "title": "Dog",
+        "require_admin": false,
+        "mode": "storage",
+        "url_path": "dashboard-pet"
       }
     ]
   }

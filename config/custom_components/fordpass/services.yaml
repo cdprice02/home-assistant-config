@@ -1,0 +1,120 @@
+refresh_status:
+  description: "Poll car for latest status (Takes up to 5mins to update once this function has been run!)"
+  fields:
+    vin:
+      name: Vin
+      description: "Parse a vin number to only refresh the specified vehicle (Default refreshes all added vehicles)"
+      example: "1C4GJ25342B521742"
+      selector:
+        text:
+clear_tokens:
+  description: "Clear the cached tokens"
+reload:
+  name: Reload
+  description: "Reload the Fordpass Integration"
+poll_api:
+  name: Poll API
+  description: "Manually poll API for data update (Warning: doing this too often could result in a ban)"
+delete_message:
+  name: "Delete FordPass Message"
+  description: "Delete a Message from the Messages list. Enter a Message ID to delete a specific message"
+  fields:
+    msgid:
+      name: "Message ID"
+      description: "Enter a valid Message ID to delete a specific message"
+      required: true
+      selector:
+        text:
+          multiline: false
+
+update_departure_schedule:
+  name: "Update Departure Schedule"
+  description: "Set a departure schedule time and preconditioning temperature for selected days"
+  fields:
+    hour:
+      name: "Hour"
+      description: "Departure hour (0-23)"
+      required: true
+      example: 9
+      selector:
+        number:
+          min: 0
+          max: 23
+          mode: box
+    minute:
+      name: "Minute"
+      description: "Departure minute (0-55)"
+      required: true
+      example: 30
+      selector:
+        number:
+          min: 0
+          max: 55
+          mode: box
+          step: 5
+    schedule_days:
+      name: "Days"
+      description: "Select one or more weekdays"
+      required: true
+      example: ["monday", "wednesday"]
+      selector:
+        select:
+          multiple: true
+          sort: false
+          translation_key: "schedule_days"
+          options:
+            - "monday"
+            - "tuesday"
+            - "wednesday"
+            - "thursday"
+            - "friday"
+            - "saturday"
+            - "sunday"
+    precondition_temperature:
+      name: "Preconditioning Temperature"
+      required: true
+      example: "medium"
+      selector:
+        select:
+          mode: dropdown
+          sort: false
+          translation_key: "precondition_temperature"
+          options:
+            - "low"
+            - "medium"
+            - "high"
+            - "off"
+delete_departure_schedule_by_days:
+  name: "Delete Departure Schedules by Days"
+  description: "Delete departure schedules for selected weekdays"
+  fields:
+    schedule_days:
+      name: "Days"
+      description: "Select one or more weekdays"
+      required: true
+      example: ["monday", "wednesday"]
+      selector:
+        select:
+          multiple: true
+          sort: false
+          translation_key: "schedule_days"
+          options:
+            - "monday"
+            - "tuesday"
+            - "wednesday"
+            - "thursday"
+            - "friday"
+            - "saturday"
+            - "sunday"
+delete_departure_schedule_by_ids:
+  name: "Delete Departure Schedules by IDs"
+  description: "Delete departure schedules by schedule IDs"
+  fields:
+    schedule_ids:
+      name: "Schedule IDs"
+      description: "Provide one or more schedule IDs as list (e.g. [1,2,3]) or comma-separated string (e.g. 1,2,3)"
+      required: true
+      example: "1, 5, 12"
+      selector:
+        text:
+          multiline: false

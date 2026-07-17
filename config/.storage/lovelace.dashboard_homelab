@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_homelab",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "type": "sections",
+          "title": "Homelab",
+          "icon": "mdi:server",
+          "max_columns": 2,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Cluster thermals"
+                },
+                {
+                  "type": "custom:apexcharts-card",
+                  "header": {
+                    "show": true,
+                    "title": "Node temperatures (24h)"
+                  },
+                  "graph_span": "24h",
+                  "apex_config": {
+                    "chart": {
+                      "height": 220
+                    }
+                  },
+                  "series": [
+                    {
+                      "entity": "sensor.queen_cpu_temperature",
+                      "name": "queen",
+                      "stroke_width": 2,
+                      "group_by": {
+                        "func": "avg",
+                        "duration": "10min"
+                      }
+                    },
+                    {
+                      "entity": "sensor.drone_0_cpu_temperature",
+                      "name": "drone-0",
+                      "stroke_width": 2,
+                      "group_by": {
+                        "func": "avg",
+                        "duration": "10min"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "sensor.queen_cpu_temperature",
+                  "name": "queen",
+                  "icon": "mdi:raspberry-pi"
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "sensor.drone_0_cpu_temperature",
+                  "name": "drone-0",
+                  "icon": "mdi:raspberry-pi"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Backups"
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "sensor.backup_last_successful_automatic_backup",
+                  "name": "Last successful backup",
+                  "icon": "mdi:backup-restore"
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "sensor.backup_next_scheduled_automatic_backup",
+                  "name": "Next scheduled",
+                  "icon": "mdi:calendar-clock"
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "sensor.backup_backup_manager_state",
+                  "name": "Backup manager",
+                  "icon": "mdi:state-machine"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "System health"
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "sensor.uptime",
+                  "name": "HA started",
+                  "icon": "mdi:timer-outline"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

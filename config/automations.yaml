@@ -1,26 +1,315 @@
-- id: '1771272649258'
-  alias: Wake Up
-  description: Start wake up sequence for morning routine
+- id: dog_away_mode
+  alias: Away Mode
+  description: Leaving arms the pet cam; after dark one lamp stays low for the dog.
   triggers:
-  - allowed_methods:
-    - POST
-    - PUT
-    local_only: true
-    webhook_id: morning_alarm
-    trigger: webhook
+  - trigger: state
+    entity_id: person.carson
+    from: home
   actions:
-  - wait_template: "{% set now = now() %}  {% set today = now.date() %}  {% set alarm_datetime
-      = today.strftime(\"%Y-%m-%d \") + alarm_time %}  {% set alarm_timestamp = as_timestamp(strptime(alarm_datetime,
-      \"%Y-%m-%d %H:%M\")) %}  {% if alarm_timestamp < as_timestamp(now) %}\n  {%
-      set target_datetime = (today + timedelta(days=1)).strftime(\"%Y-%m-%d \") +
-      alarm_time %}\n{% else %}\n  {% set target_datetime = alarm_datetime %}\n{%
-      endif %}  {% set target_time = as_timestamp(strptime(target_datetime, \"%Y-%m-%d
-      %H:%M\")) %}  {% set wait_time = target_time - seconds_before %}  {{ as_timestamp(now)
-      >= wait_time }}"
+  - action: switch.turn_off
+    target:
+      entity_id: switch.pet_camera_privacy_mode
+  - action: switch.turn_on
+    target:
+      entity_id: switch.pet_camera_auto_tracking
+  - action: light.turn_off
+    target:
+      entity_id: light.home_lights
+  - if:
+    - condition: sun
+      after: sunset
+    then:
+    - action: light.turn_on
+      target:
+        entity_id: light.living_room_floor_lamp
+      data:
+        brightness_pct: 20
+  mode: single
+
+- id: dog_home_privacy
+  alias: Welcome Home
+  triggers:
+  - trigger: state
+    entity_id: person.carson
+    to: home
+  - trigger: homeassistant
+    event: start
+  actions:
+  - if:
+    - condition: state
+      entity_id: input_boolean.camera_privacy_when_home
+      state: 'on'
+    then:
+    - action: switch.turn_on
+      target:
+        entity_id: switch.pet_camera_privacy_mode
+  - if:
+    - condition: sun
+      after: sunset
+    then:
+    - action: scene.turn_on
+      target:
+        entity_id: scene.home_lights_relax
+  mode: single
+
+- id: camera_person_while_away
+  alias: Person Alert
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.pet_camera_person
+    to: 'on'
+  conditions:
+  - condition: state
+    entity_id: person.carson
+    state: not_home
+  actions:
+  - action: notify.mobile_app_cdprice_phone
+    data:
+      title: Person detected at home
+      message: The pet camera sees a person while you're away.
+      data:
+        image: /api/camera_proxy/camera.pet_camera_fluent
+        push:
+          interruption-level: time-sensitive
+  mode: single
+
+- id: dog_checkin
+  alias: Dog Check-in
+  triggers:
+  - trigger: time_pattern
+    hours: /2
+  conditions:
+  - condition: state
+    entity_id: person.carson
+    state: not_home
+    for:
+      hours: 2
+  - condition: state
+    entity_id: input_boolean.dog_checkin_enabled
+    state: 'on'
+  actions:
+  - action: notify.mobile_app_cdprice_phone
+    data:
+      title: Dog check-in
+      message: Here's the latest look.
+      data:
+        image: /api/camera_proxy/camera.pet_camera_fluent
+  mode: single
+
+- id: dog_sound_alert
+  alias: Dog Sound Alert
+  description: Camera audio-AI (crying/whine) while away, rate-limited to 15 min.
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.pet_camera_baby_crying
+    to: 'on'
+  conditions:
+  - condition: state
+    entity_id: person.carson
+    state: not_home
+  - condition: template
+    value_template: "{{ this.attributes.last_triggered is none or\n   (now() - this.attributes.last_triggered).total_seconds() > 900 }}"
+  actions:
+  - action: notify.mobile_app_cdprice_phone
+    data:
+      title: The dog is making noise
+      message: Whining/crying detected — want to check the camera?
+      data:
+        image: /api/camera_proxy/camera.pet_camera_fluent
+  mode: single
+
+- id: backup_freshness_watch
+  alias: Backup Freshness Watch
+  triggers:
+  - trigger: time
+    at: '10:00:00'
+  conditions:
+  - condition: template
+    value_template: "{{ states('sensor.backup_last_successful_automatic_backup') in ['unknown','unavailable']\n   or now() - states('sensor.backup_last_successful_automatic_backup') | as_datetime | as_local > timedelta(hours=48) }}"
+  actions:
+  - action: notify.mobile_app_cdprice_phone
+    data:
+      title: Backup problem
+      message: Last successful HA backup is older than 48h — check Settings → Backups and the GitHub job.
+  mode: single
+
+- id: phone_focus_webhook
+  alias: Focus Sync
+  description: iOS shortcut posts {"focus":"<current focus name or empty>"}; unknown/empty maps to None.
+  triggers:
+  - trigger: webhook
+    webhook_id: phone-focus-8f3k2p
+    allowed_methods:
+    - POST
+    local_only: false
+  actions:
+  - action: input_select.select_option
+    target:
+      entity_id: input_select.phone_focus
+    data:
+      option: '{{ trigger.json.focus if (trigger.json.focus is defined and trigger.json.focus in [''Do Not Disturb'', ''Sleep'', ''Fitness'', ''Driving'', ''Reduce Interruptions'']) else ''None'' }}'
+  mode: queued
+
+- id: sleep_focus_winddown
+  alias: Sleep Wind Down
+  triggers:
+  - trigger: state
+    entity_id: input_select.phone_focus
+    to: Sleep
+  conditions:
+  - condition: state
+    entity_id: person.carson
+    state: home
+  actions:
+  - action: light.turn_off
+    target:
+      entity_id:
+      - light.living_room_lights
+      - light.office_lights
+  - action: light.turn_on
+    target:
+      entity_id: light.bedroom_lights
+    data:
+      brightness_pct: 25
+      kelvin: 2200
+  - delay:
+      minutes: 10
+  - action: light.turn_off
+    target:
+      entity_id: light.bedroom_lights
+    data:
+      transition: 60
+  mode: restart
+
+- id: prealarm_sunrise
+  alias: Sunrise Ramp
+  description: Bedroom ramp 15 min before Wakeup Time on workdays. Skip Next Wakeup
+    consumes one occurrence.
+  triggers:
+  - trigger: time_pattern
+    minutes: "*"
+  conditions:
+  - condition: template
+    value_template: >
+      {% set wakeup = states('input_datetime.wakeup_time') %}
+      {% if wakeup in ['unknown', 'unavailable'] %}
+        false
+      {% else %}
+        {% set target = today_at(wakeup) - timedelta(minutes=15) %}
+        {{ now().strftime('%H:%M') == target.strftime('%H:%M') }}
+      {% endif %}
+  actions:
+  - if:
+    - condition: state
+      entity_id: input_boolean.skip_next_wakeup
+      state: 'on'
+    then:
+    - action: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.skip_next_wakeup
+    - stop: wakeup skipped
+  - condition: state
+    entity_id: person.carson
+    state: home
+  - condition: state
+    entity_id: binary_sensor.workday
+    state: 'on'
+  - action: light.turn_on
+    target:
+      entity_id: light.bedroom_lamp
+    data:
+      brightness_pct: 1
+      kelvin: 2200
+  - action: light.turn_on
+    target:
+      entity_id: light.bedroom_lamp
+    data:
+      brightness_pct: 60
+      kelvin: 3500
+      transition: 900
+  mode: single
+
+- id: movie_lights_on
+  alias: Movie Lights
+  description: Dim living room to Movie scene when TV plays, Xbox input selected,
+    or gaming session starts, after sunset.
+  triggers:
+  - trigger: state
+    entity_id: media_player.tv
+    to: playing
+    for:
+      seconds: 5
+  - trigger: state
+    entity_id: media_player.tv
+    attribute: source
+    to: Xbox
+  - trigger: state
+    entity_id: binary_sensor.offyerrocker762_in_game
+    to: 'on'
+  conditions:
+  - condition: sun
+    after: sunset
+  - condition: state
+    entity_id: person.carson
+    state: home
+  actions:
   - action: scene.turn_on
     target:
-      entity_id: scene.home_lights_natural_light
-  variables:
-    seconds_before: 1800
-    alarm_time: strptime(trigger.json.message.Test, "%H:%M:%S%Z")
-  mode: restart
+      entity_id: scene.movie
+  mode: single
+
+- id: ford_low_fuel
+  alias: Ford Low Fuel
+  description: Notify when Little Bucker drops below 20% fuel.
+  triggers:
+  - trigger: numeric_state
+    entity_id: sensor.fordpass_3fmcr9c65prd22131_fuel
+    below: 20
+  actions:
+  - action: notify.mobile_app_cdprice_phone
+    data:
+      title: Little Bucker — low fuel
+      message: "Fuel is at {{ states('sensor.fordpass_3fmcr9c65prd22131_fuel') }}%."
+  mode: single
+
+- id: ford_unlocked_when_leaving
+  alias: Ford Unlocked When Leaving
+  description: Notify if Little Bucker is unlocked when leaving home.
+  triggers:
+  - trigger: state
+    entity_id: person.carson
+    from: home
+  conditions:
+  - condition: state
+    entity_id: lock.fordpass_3fmcr9c65prd22131_doorlock
+    state: unlocked
+  actions:
+  - action: notify.mobile_app_cdprice_phone
+    data:
+      title: Little Bucker is unlocked
+      message: You left home and the car doors are unlocked.
+      data:
+        push:
+          interruption-level: time-sensitive
+  mode: single
+
+- id: movie_lights_off
+  alias: Movie Lights Off
+  description: Restore relax lighting when TV turns off after sunset.
+  triggers:
+  - trigger: state
+    entity_id: media_player.tv
+    to: 'off'
+    for:
+      seconds: 10
+  conditions:
+  - condition: sun
+    after: sunset
+  - condition: state
+    entity_id: person.carson
+    state: home
+  actions:
+  - action: scene.turn_on
+    target:
+      entity_id: scene.home_lights_relax
+  mode: single

@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_pet",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "type": "sections",
+          "title": "Dog",
+          "icon": "mdi:dog",
+          "max_columns": 2,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Status"
+                },
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "chips": [
+                    {
+                      "type": "entity",
+                      "entity": "person.carson",
+                      "icon_color": "{{ 'green' if is_state('person.carson','home') else 'orange' }}"
+                    },
+                    {
+                      "type": "entity",
+                      "entity": "input_select.phone_focus",
+                      "icon": "mdi:cellphone-sound"
+                    },
+                    {
+                      "type": "entity",
+                      "entity": "input_boolean.skip_next_wakeup",
+                      "icon": "mdi:alarm-off",
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    },
+                    {
+                      "type": "entity",
+                      "entity": "input_datetime.wakeup_time",
+                      "icon": "mdi:alarm"
+                    },
+                    {
+                      "type": "entity",
+                      "entity": "switch.pet_camera_privacy_mode",
+                      "icon": "mdi:cctv-off",
+                      "tap_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Live"
+                },
+                {
+                  "type": "picture-glance",
+                  "title": "Pet camera",
+                  "camera_image": "camera.pet_camera_fluent",
+                  "camera_view": "live",
+                  "entities": [
+                    "switch.pet_camera_privacy_mode",
+                    "switch.pet_camera_auto_tracking"
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Controls"
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "switch.pet_camera_privacy_mode",
+                  "name": "Privacy mode",
+                  "icon": "mdi:cctv-off",
+                  "tap_action": {
+                    "action": "toggle"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "switch.pet_camera_auto_tracking",
+                  "name": "Auto-tracking",
+                  "icon": "mdi:motion-sensor",
+                  "tap_action": {
+                    "action": "toggle"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "input_boolean.dog_checkin_enabled",
+                  "name": "Check-in notifications",
+                  "tap_action": {
+                    "action": "toggle"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "input_boolean.camera_privacy_when_home",
+                  "name": "Privacy when home",
+                  "tap_action": {
+                    "action": "toggle"
+                  }
+                },
+                {
+                  "type": "custom:mushroom-select-card",
+                  "entity": "select.pet_camera_ptz_preset",
+                  "name": "Camera position",
+                  "icon": "mdi:rotate-3d-variant"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading": "Activity (24h)"
+                },
+                {
+                  "type": "logbook",
+                  "entities": [
+                    "binary_sensor.pet_camera_person",
+                    "binary_sensor.pet_camera_animal",
+                    "binary_sensor.pet_camera_motion",
+                    "binary_sensor.pet_camera_baby_crying"
+                  ],
+                  "hours_to_show": 24
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

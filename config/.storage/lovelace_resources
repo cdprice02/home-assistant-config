@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace_resources",
+  "data": {
+    "items": [
+      {
+        "id": "c2c1cb6cc5e74412b6599e7c3fb8a806",
+        "url": "/hacsfiles/lovelace-mushroom/mushroom.js?hacstag=444350375511",
+        "type": "module"
+      },
+      {
+        "id": "6252762b84884cedb6b3156c043dfa9a",
+        "url": "/hacsfiles/lovelace-card-mod/card-mod.js?hacstag=190927524421",
+        "type": "module"
+      },
+      {
+        "id": "edfe4505708c4ea28499299ca7e27fd3",
+        "url": "/hacsfiles/apexcharts-card/apexcharts-card.js?hacstag=331701152223",
+        "type": "module"
+      },
+      {
+        "id": "a53d09540e8140169abe0bbce2816aca",
+        "url": "/hacsfiles/lovelace-auto-entities/auto-entities.js?hacstag=1677445841161",
+        "type": "module"
+      }
+    ]
+  }
+}
