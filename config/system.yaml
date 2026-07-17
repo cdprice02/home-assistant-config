@@ -1,0 +1,92 @@
+title: System
+views:
+  - title: Maintenance
+    icon: mdi:cog
+    path: maintenance
+    type: sections
+    max_columns: 2
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Updates
+          - type: custom:auto-entities
+            card:
+              type: entities
+              title: Available updates
+            filter:
+              include:
+                - domain: update
+                  state: "on"
+            sort:
+              method: name
+            show_empty: false
+      - type: grid
+        cards:
+          - type: heading
+            heading: Backups
+          - type: custom:mushroom-entity-card
+            entity: sensor.backup_last_successful_automatic_backup
+            name: Last backup
+            icon: mdi:backup-restore
+          - type: custom:mushroom-entity-card
+            entity: sensor.backup_next_scheduled_automatic_backup
+            name: Next scheduled
+            icon: mdi:calendar-clock
+
+  - title: History
+    icon: mdi:chart-line
+    path: history
+    type: sections
+    max_columns: 2
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Presence
+          - type: history-graph
+            entities:
+              - entity: person.carson
+            hours_to_show: 24
+      - type: grid
+        cards:
+          - type: heading
+            heading: Lights
+          - type: history-graph
+            entities:
+              - entity: light.home_lights
+            hours_to_show: 24
+      - type: grid
+        cards:
+          - type: heading
+            heading: Thermals
+          - type: history-graph
+            entities:
+              - entity: sensor.queen_cpu_temperature
+                name: queen
+              - entity: sensor.drone_0_cpu_temperature
+                name: drone-0
+            hours_to_show: 24
+
+  - title: Logs
+    icon: mdi:text-box-outline
+    path: logs
+    type: sections
+    max_columns: 1
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Recent activity
+          - type: logbook
+            hours_to_show: 24
+            entities:
+              - person.carson
+              - light.home_lights
+              - media_player.tv
+              - automation.dog_away_mode_camera_on_lamp_for_the_dog
+              - automation.home_camera_privacy_welcome_light
+              - automation.alarm_pre_alarm_sunrise_ramp
+              - automation.movie_lights_on
+              - automation.movie_lights_off
+              - automation.sleep_focus_bedroom_wind_down

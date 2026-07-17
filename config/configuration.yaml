@@ -1,6 +1,5 @@
 # Loads default set of integrations. Do not remove.
 default_config:
-# Load frontend themes from the themes folder
 frontend:
   themes: !include_dir_merge_named themes
 automation: !include automations.yaml
@@ -12,8 +11,6 @@ http:
     - 10.42.0.0/16  # pod CIDR
     - 100.64.0.0/10  # Tailscale CGNAT
 lovelace:
-  resource_mode: yaml
-  resources: []
   dashboards:
     my-home:
       mode: yaml
@@ -21,5 +18,45 @@ lovelace:
       title: Home
       icon: mdi:home
       show_in_sidebar: false
+    dashboard-system:
+      mode: yaml
+      filename: system.yaml
+      title: System
+      icon: mdi:cog
+      show_in_sidebar: true
+      require_admin: true
 
+input_boolean:
+  skip_next_wakeup:
+    name: Skip Next Wakeup
+    icon: mdi:alarm-off
+  dog_checkin_enabled:
+    name: Dog Check-in Alerts
+    icon: mdi:dog
+  camera_privacy_when_home:
+    name: Camera Privacy When Home
+    icon: mdi:cctv-off
 
+input_datetime:
+  wakeup_time:
+    name: Wakeup Time
+    has_date: false
+    has_time: true
+    icon: mdi:alarm
+  next_alarm:
+    name: Next Alarm Override
+    has_date: true
+    has_time: true
+    icon: mdi:alarm
+
+input_select:
+  phone_focus:
+    name: Phone Focus
+    options:
+      - None
+      - Do Not Disturb
+      - Sleep
+      - Fitness
+      - Driving
+      - Reduce Interruptions
+    icon: mdi:cellphone-sound
