@@ -4,7 +4,7 @@ frontend:
   themes: !include_dir_merge_named themes
 automation: !include automations.yaml
 script: !include scripts.yaml
-scene: !include scenes.yaml
+scene: !include_dir_merge_list scenes/
 http:
   use_x_forwarded_for: true
   trusted_proxies:
@@ -17,7 +17,7 @@ lovelace:
       filename: my-home.yaml
       title: Home
       icon: mdi:home
-      show_in_sidebar: false
+      show_in_sidebar: true
     dashboard-system:
       mode: yaml
       filename: system.yaml
@@ -59,8 +59,9 @@ input_select:
   phone_focus:
     name: Phone Focus
     options:
-      - None
+      - 'Off'
       - Do Not Disturb
+      - Personal
       - Sleep
       - Fitness
       - Driving

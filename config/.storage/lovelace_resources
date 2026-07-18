@@ -23,6 +23,21 @@
         "id": "a53d09540e8140169abe0bbce2816aca",
         "url": "/hacsfiles/lovelace-auto-entities/auto-entities.js?hacstag=1677445841161",
         "type": "module"
+      },
+      {
+        "id": "c8766de4e5584038ba947749e4d5ba9c",
+        "url": "/hacsfiles/button-card/button-card.js?hacstag=146194325701",
+        "type": "module"
+      },
+      {
+        "id": "ad60477b3fc147c1bf87568053a6fb74",
+        "url": "/hacsfiles/light-card-hue-feature/light-card-hue-feature.js?hacstag=991829621100",
+        "type": "module"
+      },
+      {
+        "id": "9d2586558c8541ab8911cb0c952f6050",
+        "url": "/hacsfiles/Bubble-Card/bubble-card.js?hacstag=680112919325",
+        "type": "module"
       }
     ]
   }

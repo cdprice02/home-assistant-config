@@ -1,0 +1,344 @@
+- id: '1771634911683'
+  name: Movie
+  entities:
+    light.living_room_lights:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: color_temp
+      brightness: 97
+      color_temp_kelvin: 2000
+      color_temp: 500
+      hs_color:
+      - 30.601
+      - 94.547
+      rgb_color:
+      - 255
+      - 137
+      - 14
+      xy_color:
+      - 0.598
+      - 0.383
+      is_hue_group: true
+      hue_scenes: []
+      hue_type: room
+      lights:
+      - Living Room Floor Lamp
+      - Living Room Lamp
+      entity_id:
+      - light.living_room_lamp
+      - light.living_room_floor_lamp
+      dynamics: false
+      icon: mdi:lightbulb-group
+      friendly_name: Living Room Lights
+      supported_features: 40
+      state: 'on'
+    light.office_lights:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      is_hue_group: true
+      hue_scenes: []
+      hue_type: room
+      lights:
+      - Desk Lamp
+      entity_id:
+      - light.desk_lamp
+      dynamics: false
+      icon: mdi:lightbulb-group
+      friendly_name: Office Lights
+      supported_features: 40
+      state: 'off'
+    light.bedroom_lights:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      is_hue_group: true
+      hue_scenes: []
+      hue_type: room
+      lights:
+      - Bedroom Lamp 2
+      - Bedroom Lamp
+      entity_id:
+      - light.bedroom_lamp_2
+      - light.bedroom_lamp
+      dynamics: false
+      icon: mdi:lightbulb-group
+      friendly_name: Bedroom Lights
+      supported_features: 40
+      state: 'off'
+    media_player.tv:
+      source_list:
+      - Home
+      - Apple TV
+      - Backdrops
+      - ESPN
+      - Live TV
+      - Netflix
+      - Prime Video
+      - SuperBox
+      - Xbox
+      - YouTube
+      - YouTube TV
+      media_content_type: app
+      app_id: tvinput.hdmi1
+      app_name: SuperBox
+      source: SuperBox
+      device_class: tv
+      entity_picture: /api/media_player_proxy/media_player.tv?token=4b96eb260e67219630d7b5efcda4699c1834e10fe11a1c6af7f12d5b2880ee53&cache=0f416ae691bc1077
+      friendly_name: Living Room TV
+      supported_features: 151481
+      state: 'on'
+    remote.tv:
+      friendly_name: Living Room TV
+      supported_features: 0
+      state: 'on'
+    select.tv_channel:
+      options:
+      - AWSN (6.4)
+      - BarkTV (6.8)
+      - Bein (6.15)
+      - Binge (6.12)
+      - Bounce (7.5)
+      - Bridge1 (6.2)
+      - Bridge2 (6.3)
+      - CBS (44.3)
+      - CHSN (14.5)
+      - Charge! (14.2)
+      - Comet (14.3)
+      - Court (46.5)
+      - CourtTV (4.4)
+      - Cozi (46.4)
+      - DrOz (6.14)
+      - FOX (44.1)
+      - FOX (46.2)
+      - FTF (6.10)
+      - GDT (7.9)
+      - GDT2 (7.11)
+      - Grit (7.6)
+      - ION (11.3)
+      - IONMyst (46.6)
+      - IONPlus (7.7)
+      - InTouch (6.6)
+      - Ion (4.5)
+      - JTV (36.3)
+      - K06QJ (6.1)
+      - KABY-LD (15.1)
+      - KDLT-TV (46.1)
+      - KELO (11.1)
+      - KELOCW (11.4)
+      - KSFL-DT (36.1)
+      - KSFY-TV (13.1)
+      - KSMN-CR (20.2)
+      - KSMN-HD (20.1)
+      - KSMN-KD (20.5)
+      - KSMN-MN (20.3)
+      - KSMN-WD (20.4)
+      - KSMNFNX (20.6)
+      - KTIVCW (4.2)
+      - KTIVME (4.3)
+      - KTIVNBC (4.1)
+      - KTTW HD (7.1)
+      - LAFF (7.4)
+      - MTRSPR1 (6.11)
+      - MeTV (13.3)
+      - MeTV (15.3)
+      - MeToons (13.6)
+      - MeToons (15.6)
+      - MyNet (44.2)
+      - NBT (6.13)
+      - OAN (6.5)
+      - ONTV4U (7.2)
+      - Outlaw (13.2)
+      - Outlaw (15.2)
+      - Outlaw (4.6)
+      - Positiv (7.8)
+      - Quest (7.10)
+      - ROAR (14.1)
+      - SBN (7.3)
+      - SHOPLC (36.4)
+      - Sales (6.7)
+      - ShopNow (6.16)
+      - StartTV (13.5)
+      - StartTV (15.5)
+      - T-Crime (13.4)
+      - T-Crime (15.4)
+      - The365 (46.3)
+      - TheNest (14.4)
+      - UTV (11.2)
+      - YTA (36.2)
+      - ZLiving (6.9)
+      friendly_name: Living Room TV Channel
+      state: unknown
+  metadata: {}
+  icon: mdi:movie
+- id: '1771648876132'
+  name: Late Movie
+  entities:
+    light.bedroom_lights:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      is_hue_group: true
+      hue_scenes: []
+      hue_type: room
+      lights:
+      - Bedroom Lamp 2
+      - Bedroom Lamp
+      entity_id:
+      - light.bedroom_lamp_2
+      - light.bedroom_lamp
+      dynamics: false
+      icon: mdi:lightbulb-group
+      friendly_name: Bedroom Lights
+      supported_features: 40
+      state: 'off'
+    light.living_room_lights:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 13
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 9.231
+      - 66.275
+      rgb_color:
+      - 255
+      - 112
+      - 86
+      xy_color:
+      - 0.589
+      - 0.329
+      is_hue_group: true
+      hue_scenes: []
+      hue_type: room
+      lights:
+      - Living Room Floor Lamp
+      - Living Room Lamp
+      entity_id:
+      - light.living_room_lamp
+      - light.living_room_floor_lamp
+      dynamics: false
+      icon: mdi:lightbulb-group
+      friendly_name: Living Room Lights
+      supported_features: 40
+      state: 'on'
+    light.office_lights:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      is_hue_group: true
+      hue_scenes: []
+      hue_type: room
+      lights:
+      - Desk Lamp
+      entity_id:
+      - light.desk_lamp
+      dynamics: false
+      icon: mdi:lightbulb-group
+      friendly_name: Office Lights
+      supported_features: 40
+      state: 'off'
+  metadata: {}
+  icon: mdi:movie-filter
+
+# --- Authored living-room lighting looks (version-controlled; edit values to taste) ---
+- id: lr_bright
+  name: Living Room Bright
+  icon: mdi:white-balance-sunny
+  entities:
+    light.living_room_lights:
+      state: 'on'
+      brightness: 255
+      color_temp_kelvin: 4000
+- id: lr_relax
+  name: Living Room Relax
+  icon: mdi:sofa
+  entities:
+    light.living_room_lights:
+      state: 'on'
+      brightness: 102
+      color_temp_kelvin: 2200
+- id: lr_read
+  name: Living Room Read
+  icon: mdi:book-open-variant
+  entities:
+    light.living_room_lights:
+      state: 'on'
+      brightness: 230
+      color_temp_kelvin: 3500
+- id: lr_nightlight
+  name: Living Room Nightlight
+  icon: mdi:weather-night
+  entities:
+    light.living_room_lights:
+      state: 'on'
+      brightness: 20
+      color_temp_kelvin: 2000
+# Multi-color palette look: each lamp a different ruby/raspberry tone.
+- id: lr_ruby_romance
+  name: Living Room Ruby Romance
+  icon: mdi:heart
+  entities:
+    light.living_room_lamp:
+      state: 'on'
+      brightness: 160
+      rgb_color: [178, 24, 58]
+    light.living_room_floor_lamp:
+      state: 'on'
+      brightness: 140
+      rgb_color: [199, 44, 122]

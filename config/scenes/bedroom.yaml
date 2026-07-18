@@ -1,0 +1,46 @@
+# Bedroom lighting looks (version-controlled; edit values to taste)
+- id: br_bright
+  name: Bedroom Bright
+  icon: mdi:white-balance-sunny
+  entities:
+    light.bedroom_lights:
+      state: 'on'
+      brightness: 255
+      color_temp_kelvin: 4000
+- id: br_relax
+  name: Bedroom Relax
+  icon: mdi:bed
+  entities:
+    light.bedroom_lights:
+      state: 'on'
+      brightness: 90
+      color_temp_kelvin: 2200
+- id: br_read
+  name: Bedroom Read
+  icon: mdi:book-open-variant
+  entities:
+    light.bedroom_lights:
+      state: 'on'
+      brightness: 230
+      color_temp_kelvin: 3200
+- id: br_wind_down
+  name: Bedroom Wind Down
+  icon: mdi:weather-night
+  entities:
+    light.bedroom_lights:
+      state: 'on'
+      brightness: 30
+      color_temp_kelvin: 2000
+# Multi-color palette look: each lamp a different ruby/raspberry tone.
+- id: br_ruby_romance
+  name: Bedroom Ruby Romance
+  icon: mdi:heart
+  entities:
+    light.bedroom_lamp:
+      state: 'on'
+      brightness: 150
+      rgb_color: [178, 24, 58]
+    light.bedroom_lamp_2:
+      state: 'on'
+      brightness: 130
+      rgb_color: [199, 44, 122]
