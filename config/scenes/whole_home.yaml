@@ -1,0 +1,58 @@
+# Whole-home lighting looks for the Home overview (version-controlled; edit to taste)
+- id: home_bright
+  name: Home Bright
+  icon: mdi:white-balance-sunny
+  entities:
+    light.home_lights:
+      state: 'on'
+      brightness: 255
+      color_temp_kelvin: 4000
+- id: home_relax
+  name: Home Relax
+  icon: mdi:sofa
+  entities:
+    light.home_lights:
+      state: 'on'
+      brightness: 100
+      color_temp_kelvin: 2200
+- id: home_concentrate
+  name: Home Concentrate
+  icon: mdi:lightbulb-on
+  entities:
+    light.home_lights:
+      state: 'on'
+      brightness: 255
+      color_temp_kelvin: 5000
+- id: home_nightlight
+  name: Home Nightlight
+  icon: mdi:weather-night
+  entities:
+    light.home_lights:
+      state: 'on'
+      brightness: 15
+      color_temp_kelvin: 2000
+# Whole-home multi-color palette: every bulb a different ruby-family tone.
+- id: home_ruby_romance
+  name: Home Ruby Romance
+  icon: mdi:heart
+  entities:
+    light.living_room_lamp:
+      state: 'on'
+      brightness: 160
+      rgb_color: [178, 24, 58]
+    light.living_room_floor_lamp:
+      state: 'on'
+      brightness: 140
+      rgb_color: [199, 44, 122]
+    light.bedroom_lamp:
+      state: 'on'
+      brightness: 150
+      rgb_color: [150, 20, 70]
+    light.bedroom_lamp_2:
+      state: 'on'
+      brightness: 130
+      rgb_color: [199, 44, 122]
+    light.desk_lamp:
+      state: 'on'
+      brightness: 150
+      rgb_color: [190, 30, 80]

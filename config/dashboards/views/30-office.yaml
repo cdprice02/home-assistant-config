@@ -1,0 +1,72 @@
+title: Office
+path: office
+icon: mdi:chair-rolling
+subview: true
+type: sections
+max_columns: 2
+sections:
+  # --- Light control card: controls + live swatch + scenes ---
+  - type: grid
+    cards:
+      - type: heading
+        heading: Lights
+        icon: mdi:lightbulb-group
+      - type: custom:mushroom-light-card
+        entity: light.office_lights
+        name: Office
+        icon: mdi:desk-lamp
+        use_light_color: true
+        show_brightness_control: true
+        show_color_temp_control: true
+        show_color_control: true
+        collapsible_controls: false
+      - type: custom:button-card
+        template: swatch
+        entity: light.office_lights
+        variables:
+          lights:
+            - light.desk_lamp
+      - type: grid
+        columns: 2
+        square: false
+        cards:
+          - type: custom:button-card
+            template: scene_tile
+            name: Focus
+            icon: mdi:lightbulb-on
+            variables:
+              scene: scene.office_focus
+              color: "#4E7CB0"
+          - type: custom:button-card
+            template: scene_tile
+            name: Bright
+            icon: mdi:white-balance-sunny
+            variables:
+              scene: scene.office_bright
+              color: "#E8A93B"
+          - type: custom:button-card
+            template: scene_tile
+            name: Relax
+            icon: mdi:coffee
+            variables:
+              scene: scene.office_relax
+              color: "#C56A2C"
+          - type: custom:button-card
+            template: scene_tile
+            name: Ruby Romance
+            icon: mdi:heart
+            variables:
+              scene: scene.office_ruby_romance
+              color: "linear-gradient(135deg, #B4163A, #C72C7A)"
+
+  # --- Area mini-log ---
+  - type: grid
+    cards:
+      - type: heading
+        heading: Activity
+        icon: mdi:history
+      - type: logbook
+        hours_to_show: 12
+        entities:
+          - light.office_lights
+          - light.desk_lamp

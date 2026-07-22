@@ -1,0 +1,34 @@
+# Office lighting looks (version-controlled; edit values to taste)
+- id: of_focus
+  name: Office Focus
+  icon: mdi:lightbulb-on
+  entities:
+    light.office_lights:
+      state: 'on'
+      brightness: 255
+      color_temp_kelvin: 5000
+- id: of_bright
+  name: Office Bright
+  icon: mdi:white-balance-sunny
+  entities:
+    light.office_lights:
+      state: 'on'
+      brightness: 255
+      color_temp_kelvin: 4000
+- id: of_relax
+  name: Office Relax
+  icon: mdi:coffee
+  entities:
+    light.office_lights:
+      state: 'on'
+      brightness: 120
+      color_temp_kelvin: 2700
+# Ruby tone (office has a single lamp, so this reads as one rich color).
+- id: of_ruby_romance
+  name: Office Ruby Romance
+  icon: mdi:heart
+  entities:
+    light.desk_lamp:
+      state: 'on'
+      brightness: 150
+      rgb_color: [190, 30, 80]

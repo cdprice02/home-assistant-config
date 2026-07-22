@@ -1,0 +1,163 @@
+# button_card_templates for the Home dashboard.
+# Included at the dashboard root (my-home.yaml) as `button_card_templates:`.
+# Referenced by cards via `template: <name>` + a `variables:` block.
+
+# Colored scene button. Tap activates the scene; hold opens its more-info.
+# Instance sets: name, icon, variables.scene (entity_id), variables.color (hex).
+scene_tile:
+  show_icon: true
+  show_name: true
+  show_state: false
+  size: 20px
+  styles:
+    card:
+      - border-radius: 14px
+      - padding: 10px 6px
+      - height: 66px
+      - box-shadow: none
+      - border: none
+      - background: '[[[ return variables.color || "#3b3b3b"; ]]]'
+    grid:
+      - grid-template-areas: '"i" "n"'
+      - grid-template-rows: 1fr min-content
+    name:
+      - font-size: 12px
+      - font-weight: "500"
+      - color: white
+      - text-shadow: 0 1px 3px rgba(0,0,0,0.55)
+      - padding-top: 2px
+    icon:
+      - color: white
+      - opacity: "0.95"
+  tap_action:
+    action: call-service
+    service: scene.turn_on
+    service_data:
+      entity_id: "[[[ return variables.scene; ]]]"
+  hold_action:
+    action: more-info
+    entity: "[[[ return variables.scene; ]]]"
+
+# Live color swatch bar. Renders a left-to-right gradient of each bulb's actual
+# current color, so multi-color palette scenes (e.g. Ruby Romance) read clearly.
+# Instance sets: entity (the light group, for updates + more-info) and
+#                variables.lights (the member bulb entity_ids to sample).
+swatch:
+  show_icon: false
+  show_name: false
+  show_state: false
+  styles:
+    card:
+      - height: 30px
+      - border-radius: 10px
+      - border: 2px solid rgba(255,255,255,0.12)
+      - box-shadow: none
+      - background: |
+          [[[
+            const ids = variables.lights || (entity ? [entity.entity_id] : []);
+            const colOf = (id) => {
+              const s = hass.states[id];
+              if (!s || s.state === 'off') return 'rgba(130,130,130,0.20)';
+              const rgb = s.attributes.rgb_color;
+              if (rgb) return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+              const k = s.attributes.color_temp_kelvin;
+              if (k) return (k < 3000 ? '#ffcf8a' : (k < 4500 ? '#fff1dd' : '#e5f1ff'));
+              return '#8a8a8a';
+            };
+            const cols = ids.map(colOf);
+            if (cols.length === 0) return 'rgba(255,255,255,0.06)';
+            if (cols.length === 1) return cols[0];
+            return 'linear-gradient(90deg, ' + cols.join(', ') + ')';
+          ]]]
+  tap_action:
+    action: more-info
+
+# Scene shown as a cluster of overlapping color circles (Hue-app style), with a
+# label beneath. Tap activates the scene.
+# Instance sets: name, variables.scene (entity_id), variables.palette (list of hex).
+scene_orb:
+  show_icon: false
+  show_name: true
+  show_state: false
+  styles:
+    card:
+      - border-radius: 16px
+      - padding: 10px 6px
+      - height: 78px
+      - box-shadow: none
+      - background: rgba(255,255,255,0.04)
+    grid:
+      - grid-template-areas: '"orbs" "n"'
+      - grid-template-rows: 1fr min-content
+    custom_fields:
+      orbs:
+        - align-self: center
+        - justify-self: center
+    name:
+      - font-size: 12px
+      - font-weight: "500"
+      - padding-top: 4px
+  custom_fields:
+    orbs: |
+      [[[
+        const cols = variables.palette || ['#888888'];
+        const d = 28, ov = 12;
+        const w = d + (cols.length - 1) * ov;
+        let h = '<div style="position:relative;height:' + d + 'px;width:' + w + 'px;margin:0 auto;">';
+        cols.forEach((c, i) => {
+          h += '<span style="position:absolute;left:' + (i*ov) + 'px;top:0;width:' + d + 'px;height:' + d
+             + 'px;border-radius:50%;background:' + c
+             + ';box-shadow:0 0 0 2px var(--card-background-color, #1e1e1e);"></span>';
+        });
+        return h + '</div>';
+      ]]]
+  tap_action:
+    action: call-service
+    service: scene.turn_on
+    service_data:
+      entity_id: "[[[ return variables.scene; ]]]"
+  hold_action:
+    action: more-info
+    entity: "[[[ return variables.scene; ]]]"
+
+# Live current-state indicator: overlapping circles of each bulb's actual color.
+# Instance sets: entity (the group, for updates) and variables.lights (bulb ids).
+state_orbs:
+  show_icon: false
+  show_name: false
+  show_state: false
+  styles:
+    card:
+      - background: none
+      - box-shadow: none
+      - border: none
+      - padding: 4px 2px
+    custom_fields:
+      orbs:
+        - justify-self: start
+  custom_fields:
+    orbs: |
+      [[[
+        const ids = variables.lights || (entity ? [entity.entity_id] : []);
+        const colOf = (id) => {
+          const s = hass.states[id];
+          if (!s || s.state === 'off') return 'rgba(130,130,130,0.25)';
+          const rgb = s.attributes.rgb_color;
+          if (rgb) return 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')';
+          const k = s.attributes.color_temp_kelvin;
+          if (k) return (k < 3000 ? '#ffcf8a' : (k < 4500 ? '#fff1dd' : '#e5f1ff'));
+          return '#8a8a8a';
+        };
+        const cols = ids.map(colOf);
+        const d = 24, ov = 10;
+        const w = d + (Math.max(cols.length, 1) - 1) * ov;
+        let h = '<div style="position:relative;height:' + d + 'px;width:' + w + 'px;">';
+        cols.forEach((c, i) => {
+          h += '<span style="position:absolute;left:' + (i*ov) + 'px;top:0;width:' + d + 'px;height:' + d
+             + 'px;border-radius:50%;background:' + c
+             + ';box-shadow:0 0 0 2px var(--card-background-color, #1e1e1e);"></span>';
+        });
+        return h + '</div>';
+      ]]]
+  tap_action:
+    action: more-info

@@ -1,0 +1,90 @@
+title: Pet
+path: pet
+icon: mdi:dog-side
+subview: true
+type: sections
+max_columns: 2
+sections:
+  # --- Camera (privacy-aware) ---
+  - type: grid
+    cards:
+      - type: heading
+        heading: Pet Camera
+        icon: mdi:cctv
+      - type: conditional
+        conditions:
+          - entity: switch.pet_camera_privacy_mode
+            state: "off"
+        card:
+          type: picture-glance
+          title: Living Room
+          camera_image: camera.pet_camera_fluent
+          camera_view: live
+          entities:
+            - entity: switch.pet_camera_privacy_mode
+            - entity: switch.pet_camera_auto_tracking
+            - entity: binary_sensor.pet_camera_person
+      - type: conditional
+        conditions:
+          - entity: switch.pet_camera_privacy_mode
+            state: "on"
+        card:
+          type: custom:mushroom-template-card
+          primary: Camera privacy is on
+          secondary: Turn off privacy mode to view the live stream
+          icon: mdi:cctv-off
+          icon_color: orange
+          tap_action:
+            action: none
+
+  # --- Controls ---
+  - type: grid
+    cards:
+      - type: heading
+        heading: Controls
+        icon: mdi:tune
+      - type: custom:mushroom-entity-card
+        entity: switch.pet_camera_privacy_mode
+        name: Privacy mode
+        icon: mdi:cctv-off
+        tap_action:
+          action: toggle
+      - type: custom:mushroom-entity-card
+        entity: switch.pet_camera_auto_tracking
+        name: Auto tracking
+        icon: mdi:crosshairs-gps
+        tap_action:
+          action: toggle
+      - type: custom:mushroom-entity-card
+        entity: input_boolean.dog_checkin_enabled
+        name: Dog check-in alerts
+        icon: mdi:dog
+        tap_action:
+          action: toggle
+      - type: custom:mushroom-entity-card
+        entity: light.pet_camera_status_led
+        name: Status LED
+        icon: mdi:led-on
+        tap_action:
+          action: toggle
+
+  # --- Detections + activity ---
+  - type: grid
+    cards:
+      - type: heading
+        heading: Activity
+        icon: mdi:history
+      - type: custom:mushroom-entity-card
+        entity: binary_sensor.pet_camera_person
+        name: Person detected
+        icon: mdi:account-alert
+      - type: custom:mushroom-entity-card
+        entity: binary_sensor.pet_camera_baby_crying
+        name: Sound detected
+        icon: mdi:ear-hearing
+      - type: logbook
+        hours_to_show: 12
+        entities:
+          - binary_sensor.pet_camera_person
+          - binary_sensor.pet_camera_baby_crying
+          - switch.pet_camera_privacy_mode

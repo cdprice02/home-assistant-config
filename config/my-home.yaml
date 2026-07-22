@@ -1,2 +1,5 @@
-
-
+# Home dashboard (YAML mode). Overview view + per-area subviews.
+# button_card_templates are shared across all views (scene_tile, swatch, ...).
+title: Home
+button_card_templates: !include dashboards/templates.yaml
+views: !include_dir_list dashboards/views/

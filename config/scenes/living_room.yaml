@@ -295,3 +295,70 @@
       state: 'off'
   metadata: {}
   icon: mdi:movie-filter
+
+# --- Authored living-room palette scenes (version-controlled; edit to taste) ---
+# Natural Light: bright neutral daylight — the everyday default on-state.
+- id: lr_natural_light
+  name: Living Room Natural Light
+  icon: mdi:white-balance-sunny
+  entities:
+    light.living_room_lights:
+      state: 'on'
+      brightness: 254
+      color_temp_kelvin: 4000
+- id: lr_relax
+  name: Living Room Relax
+  icon: mdi:sofa
+  entities:
+    light.living_room_lamp:
+      state: 'on'
+      brightness: 120
+      rgb_color: [255, 147, 41]
+    light.living_room_floor_lamp:
+      state: 'on'
+      brightness: 100
+      rgb_color: [255, 173, 92]
+- id: lr_ocean
+  name: Living Room Ocean
+  icon: mdi:waves
+  entities:
+    light.living_room_lamp:
+      state: 'on'
+      brightness: 150
+      rgb_color: [16, 78, 180]
+    light.living_room_floor_lamp:
+      state: 'on'
+      brightness: 140
+      rgb_color: [26, 158, 178]
+- id: lr_forest
+  name: Living Room Forest
+  icon: mdi:pine-tree
+  entities:
+    light.living_room_lamp:
+      state: 'on'
+      brightness: 140
+      rgb_color: [34, 139, 34]
+    light.living_room_floor_lamp:
+      state: 'on'
+      brightness: 120
+      rgb_color: [120, 170, 60]
+- id: lr_ruby_romance
+  name: Living Room Ruby Romance
+  icon: mdi:heart
+  entities:
+    light.living_room_lamp:
+      state: 'on'
+      brightness: 160
+      rgb_color: [178, 24, 58]
+    light.living_room_floor_lamp:
+      state: 'on'
+      brightness: 140
+      rgb_color: [199, 44, 122]
+- id: lr_nightlight
+  name: Living Room Nightlight
+  icon: mdi:weather-night
+  entities:
+    light.living_room_lights:
+      state: 'on'
+      brightness: 20
+      color_temp_kelvin: 2000
