@@ -5,23 +5,37 @@ subview: true
 type: sections
 max_columns: 2
 sections:
-  # --- Light control card: Mushroom controls + live color swatch + scene selector ---
+  # --- Light control: Hue-style card + live orbs + quick scenes + popup ---
   - type: grid
     cards:
       - type: heading
         heading: Lights
         icon: mdi:lightbulb-group
-      - type: custom:mushroom-light-card
+      - type: custom:hue-like-light-card
         entity: light.living_room_lights
-        name: Living Room
+        title: Living Room
         icon: mdi:sofa
-        use_light_color: true
-        show_brightness_control: true
-        show_color_temp_control: true
-        show_color_control: true
-        collapsible_controls: false
+        scenes:
+          - entity: scene.living_room_natural_light
+            title: Natural Light
+            color: "#fff1dd"
+          - entity: scene.living_room_relax
+            title: Relax
+            color: "#ff9329"
+          - entity: scene.living_room_ocean
+            title: Ocean
+            color: "#1a9eb2"
+          - entity: scene.living_room_forest
+            title: Forest
+            color: "#3a9e3a"
+          - entity: scene.living_room_ruby_romance
+            title: Ruby Romance
+            color: "#c72c7a"
+          - entity: scene.living_room_nightlight
+            title: Nightlight
+            color: "#3A3A6A"
       - type: custom:button-card
-        template: swatch
+        template: state_orbs
         entity: light.living_room_lights
         variables:
           lights:
@@ -32,47 +46,89 @@ sections:
         square: false
         cards:
           - type: custom:button-card
-            template: scene_tile
-            name: Bright
-            icon: mdi:white-balance-sunny
+            template: scene_orb
+            name: Natural Light
             variables:
-              scene: scene.living_room_bright
-              color: "#E8A93B"
+              scene: scene.living_room_natural_light
+              palette: ["#fff1dd", "#ffe9c9"]
           - type: custom:button-card
-            template: scene_tile
-            name: Relax
-            icon: mdi:sofa
-            variables:
-              scene: scene.living_room_relax
-              color: "#C56A2C"
+            name: "Off"
+            icon: mdi:power
+            styles:
+              card:
+                - border-radius: 16px
+                - height: 78px
+                - box-shadow: none
+                - background: rgba(255,255,255,0.04)
+              icon:
+                - color: var(--secondary-text-color)
+            tap_action:
+              action: call-service
+              service: light.turn_off
+              service_data:
+                entity_id: light.living_room_lights
           - type: custom:button-card
-            template: scene_tile
-            name: Read
-            icon: mdi:book-open-variant
-            variables:
-              scene: scene.living_room_read
-              color: "#4E7CB0"
-          - type: custom:button-card
-            template: scene_tile
-            name: Ruby Romance
-            icon: mdi:heart
-            variables:
-              scene: scene.living_room_ruby_romance
-              color: "linear-gradient(135deg, #B4163A, #C72C7A)"
-          - type: custom:button-card
-            template: scene_tile
-            name: Night
-            icon: mdi:weather-night
-            variables:
-              scene: scene.living_room_nightlight
-              color: "#3A3A6A"
-          - type: custom:button-card
-            template: scene_tile
-            name: Movie
-            icon: mdi:movie-open
-            variables:
-              scene: scene.movie
-              color: "#5B2E7A"
+            name: More scenes
+            icon: mdi:dots-horizontal-circle-outline
+            styles:
+              card:
+                - border-radius: 16px
+                - height: 78px
+                - box-shadow: none
+                - background: rgba(255,255,255,0.04)
+              icon:
+                - color: var(--primary-color)
+            tap_action:
+              action: navigate
+              navigation_path: "#lr-scenes"
+      # Bubble Card pop-up holding the full palette (opened by "More scenes")
+      - type: vertical-stack
+        cards:
+          - type: custom:bubble-card
+            card_type: pop-up
+            hash: "#lr-scenes"
+            name: Living Room Scenes
+            icon: mdi:palette
+          - type: grid
+            columns: 2
+            square: false
+            cards:
+              - type: custom:button-card
+                template: scene_orb
+                name: Natural Light
+                variables:
+                  scene: scene.living_room_natural_light
+                  palette: ["#fff1dd", "#ffe9c9"]
+              - type: custom:button-card
+                template: scene_orb
+                name: Relax
+                variables:
+                  scene: scene.living_room_relax
+                  palette: ["#ff9329", "#ffad5c"]
+              - type: custom:button-card
+                template: scene_orb
+                name: Ocean
+                variables:
+                  scene: scene.living_room_ocean
+                  palette: ["#104eb4", "#1a9eb2"]
+              - type: custom:button-card
+                template: scene_orb
+                name: Forest
+                variables:
+                  scene: scene.living_room_forest
+                  palette: ["#228b22", "#78aa3c"]
+              - type: custom:button-card
+                template: scene_orb
+                name: Ruby Romance
+                variables:
+                  scene: scene.living_room_ruby_romance
+                  palette: ["#b2183a", "#c72c7a"]
+              - type: custom:button-card
+                template: scene_orb
+                name: Nightlight
+                variables:
+                  scene: scene.living_room_nightlight
+                  palette: ["#3a3a6a", "#5a4a8a"]
 
   # --- Media card ---
   - type: grid
